@@ -1,0 +1,8 @@
+packages
+.idea
+.vs
+*.user
+GraphvizWrapper/bin
+GraphvizWrapper/obj
+GraphvizWrapper.Tests/bin
+GraphvizWrapper.Tests/obj
