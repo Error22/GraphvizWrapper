@@ -9,18 +9,17 @@ namespace GraphvizWrapper
     public class Node
     {
         public string Name { get; }
-        public string Label { get; set; }
-        
-        internal Node(string label)
+        public Attributes Attributes { get; set; }
+
+        internal Node(Attributes attributes)
         {
             Name = $"n_{Guid.NewGuid():N}";
-            Label = label;
+            Attributes = attributes;
         }
 
         public string GenerateDot()
         {
-            string generated = $"{Name} [label = \"{Label}\"];";
-            return generated;
+            return $"{Name} [{Attributes.GenerateDot()}];";
         }
 
     }

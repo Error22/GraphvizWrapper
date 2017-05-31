@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace GraphvizWrapper
 {
-    public class NodeArrow
+    public class Edge
     {
         public Node FirstNode { get; set; }
         public Node SecondNode { get; set; }
+        public Attributes Attributes { get; set; }
 
-        internal NodeArrow(Node firstNode, Node secondNode)
+        internal Edge(Node firstNode, Node secondNode, Attributes attributes)
         {
             FirstNode = firstNode;
             SecondNode = secondNode;
+            Attributes = attributes;
         }
 
         public string GenerateDot()
         {
-            string generated = $"{FirstNode.Name} -> {SecondNode.Name};";
-            return generated;
+            return $"{FirstNode.Name} -> {SecondNode.Name} [{Attributes.GenerateDot()}];";
         }
-
     }
 }

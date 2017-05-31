@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,32 +10,43 @@ namespace GraphvizWrapper
     public class Graph
     {
         public string Name { get; }
-        public string Label { get; set; }
+        public Attributes Attributes { get; set; }
+        public Attributes NodeAttributes { get; set; }
         public GraphType Type { get; }
+        public IList<Graph> SubGraphs { get; }
         public IList<Node> Nodes { get; }
-        public IList<NodeArrow> NodeArrows { get; }
+        public IList<Edge> Edges { get; }
 
-        internal Graph(string label, GraphType type)
+        internal Graph(Attributes attributes, GraphType type)
         {
-            Name = $"{(Type == GraphType.Cluster ? "cluster" : "")}g_{Guid.NewGuid():N}";
-            Label = label;
+            Name = $"{(type == GraphType.Cluster ? "cluster" : "")}g_{Guid.NewGuid():N}";
+            Attributes = attributes;
+            NodeAttributes = Attributes.Empty();
             Type = type;
+            SubGraphs = new List<Graph>();
             Nodes = new List<Node>();
-            NodeArrows = new List<NodeArrow>();
+            Edges = new List<Edge>();
         }
 
-        public Node CreateNode(string label)
+        public Graph CreateSubGraph(bool cluster, Attributes attributes)
         {
-            Node node = new Node(label);
+            Graph subGraph = new Graph(attributes, cluster ? GraphType.Cluster : GraphType.SubGraph);
+            SubGraphs.Add(subGraph);
+            return subGraph;
+        }
+
+        public Node CreateNode(Attributes attributes)
+        {
+            Node node = new Node(attributes);
             Nodes.Add(node);
             return node;
         }
 
-        public NodeArrow CreateArrow(Node firstNode, Node secondNode)
+        public Edge CreateEdge(Node firstNode, Node secondNode, Attributes attributes)
         {
-            NodeArrow arrow = new NodeArrow(firstNode, secondNode);
-            NodeArrows.Add(arrow);
-            return arrow;
+            Edge edge = new Edge(firstNode, secondNode, attributes);
+            Edges.Add(edge);
+            return edge;
         }
 
         public string GenerateDot()
@@ -58,12 +70,17 @@ namespace GraphvizWrapper
             }
 
             generated += $" {Name} {{";
+            generated += Attributes.GenerateDot();
+            generated += $"node [{NodeAttributes.GenerateDot()}]";
+
+            foreach (Graph graph in SubGraphs)
+                generated += graph.GenerateDot();
 
             foreach (Node node in Nodes)
                 generated += node.GenerateDot();
 
-            foreach (NodeArrow arrow in NodeArrows)
-                generated += arrow.GenerateDot();
+            foreach (Edge edge in Edges)
+                generated += edge.GenerateDot();
 
 
             generated += "}";

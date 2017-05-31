@@ -17,9 +17,9 @@ namespace GraphvizWrapper
             _binPath = binPath;
         }
 
-        public Graph CreateGraph(string label, bool directed)
+        public Graph CreateGraph(Attributes attributes, bool directed)
         {
-            return new Graph(label, directed ? GraphType.Directed : GraphType.NonDirected);
+            return new Graph(attributes, directed ? GraphType.Directed : GraphType.NonDirected);
         }
 
         public void GenerateGraph(Graph graph, GraphRenderingEngine engine, GraphOuputType type, string file)
