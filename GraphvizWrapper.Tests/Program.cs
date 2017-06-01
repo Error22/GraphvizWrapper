@@ -16,6 +16,8 @@ namespace GraphvizWrapper.Tests
 
             Graph baseGraph = graphviz.CreateGraph(Attributes.WithLabel("Example"), true);
 
+            baseGraph.NodeAttributes = new Attributes {Shape = Shape.Rectangle};
+
             Attributes baseAttributes = new Attributes {Style = Styles.Filled, Color = Color.LightGray};
             Attributes baseNodeAttributes = new Attributes { Style = Styles.Filled, Color = Color.White };
 

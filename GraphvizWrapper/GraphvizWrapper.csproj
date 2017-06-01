@@ -51,6 +51,7 @@
     <Compile Include="Edge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GraphRenderingEngine.cs" />
+    <Compile Include="Shape.cs" />
     <Compile Include="Styles.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
