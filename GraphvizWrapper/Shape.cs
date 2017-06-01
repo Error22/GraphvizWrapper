@@ -66,6 +66,7 @@ namespace GraphvizWrapper
         RPromoter,
         RArrow,
         LArrow,
-        LPromoter
+        LPromoter,
+        Record
     }
 }
