@@ -12,6 +12,8 @@ namespace GraphvizWrapper
         public string Label { get; set; }
         public Styles? Style { get; set; }
         public Color? Color { get; set; }
+        public Color? BgColor { get; set; }
+        public Color? FillColor { get; set; }
         public Shape? Shape { get; set; }
 
         public Attributes SetLabel(string label)
@@ -32,6 +34,8 @@ namespace GraphvizWrapper
                 Label = Label,
                 Style = Style,
                 Color = Color,
+                BgColor = BgColor,
+                FillColor = FillColor,
                 Shape = Shape
             };
         }
@@ -45,6 +49,10 @@ namespace GraphvizWrapper
                     $"style = \"{string.Join(",", Enum.GetValues(typeof(Styles)).Cast<Styles>().Where(style => Style.Value.Has(style)).Select(style => Enum.GetName(typeof(Styles), style)?.ToLower()))}\" ";
             if (Color.HasValue)
                 generated += $"color = \"#{Color.Value.R:X2}{Color.Value.G:X2}{Color.Value.B:X2}{Color.Value.A:X2}\" ";
+            if (BgColor.HasValue)
+                generated += $"bgcolor = \"#{BgColor.Value.R:X2}{BgColor.Value.G:X2}{BgColor.Value.B:X2}{BgColor.Value.A:X2}\" ";
+            if (FillColor.HasValue)
+                generated += $"fillcolor = \"#{FillColor.Value.R:X2}{FillColor.Value.G:X2}{FillColor.Value.B:X2}{FillColor.Value.A:X2}\" ";
             if (Shape.HasValue) generated += $"shape = \"{Enum.GetName(typeof(Shape), Shape.Value)?.ToLower()}\" ";
             return generated;
         }
