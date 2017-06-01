@@ -44,7 +44,13 @@ namespace GraphvizWrapper
 
         public Edge CreateEdge(Node firstNode, Node secondNode, Attributes attributes)
         {
-            Edge edge = new Edge(firstNode, secondNode, attributes);
+            return CreateEdge(firstNode, null, secondNode, null, attributes);
+        }
+
+        public Edge CreateEdge(Node firstNode, string firstSection, Node secondNode, string secondSection,
+            Attributes attributes)
+        {
+            Edge edge = new Edge(firstNode, firstSection, secondNode, secondSection, attributes);
             Edges.Add(edge);
             return edge;
         }
