@@ -49,6 +49,8 @@
     <Compile Include="Graphviz.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Edge.cs" />
+    <Compile Include="CompassPoint.cs" />
+    <Compile Include="PortPos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GraphRenderingEngine.cs" />
     <Compile Include="Shape.cs" />

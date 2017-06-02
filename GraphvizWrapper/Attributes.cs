@@ -15,6 +15,8 @@ namespace GraphvizWrapper
         public Color? BgColor { get; set; }
         public Color? FillColor { get; set; }
         public Shape? Shape { get; set; }
+        public PortPos HeadPort { get; set; }
+        public PortPos TailPort { get; set; }
 
         public Attributes SetLabel(string label)
         {
@@ -36,7 +38,9 @@ namespace GraphvizWrapper
                 Color = Color,
                 BgColor = BgColor,
                 FillColor = FillColor,
-                Shape = Shape
+                Shape = Shape,
+                HeadPort = HeadPort,
+                TailPort = TailPort
             };
         }
 
@@ -50,10 +54,16 @@ namespace GraphvizWrapper
             if (Color.HasValue)
                 generated += $"color = \"#{Color.Value.R:X2}{Color.Value.G:X2}{Color.Value.B:X2}{Color.Value.A:X2}\" ";
             if (BgColor.HasValue)
-                generated += $"bgcolor = \"#{BgColor.Value.R:X2}{BgColor.Value.G:X2}{BgColor.Value.B:X2}{BgColor.Value.A:X2}\" ";
+                generated +=
+                    $"bgcolor = \"#{BgColor.Value.R:X2}{BgColor.Value.G:X2}{BgColor.Value.B:X2}{BgColor.Value.A:X2}\" ";
             if (FillColor.HasValue)
-                generated += $"fillcolor = \"#{FillColor.Value.R:X2}{FillColor.Value.G:X2}{FillColor.Value.B:X2}{FillColor.Value.A:X2}\" ";
+                generated +=
+                    $"fillcolor = \"#{FillColor.Value.R:X2}{FillColor.Value.G:X2}{FillColor.Value.B:X2}{FillColor.Value.A:X2}\" ";
             if (Shape.HasValue) generated += $"shape = \"{Enum.GetName(typeof(Shape), Shape.Value)?.ToLower()}\" ";
+            if (HeadPort != null)
+                generated += $"headport = \"{HeadPort.GenerateDot()}\" ";
+            if (TailPort != null)
+                generated += $"tailport = \"{TailPort.GenerateDot()}\" ";
             return generated;
         }
 
